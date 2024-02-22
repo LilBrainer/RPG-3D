@@ -2,7 +2,7 @@
     "name": "Controls",
     "maps": [
         {
-            "name": "KeyBoard",
+            "name": "CharacterControls",
             "id": "5b766e32-d14a-47de-98d7-8f6a6166b165",
             "actions": [
                 {
@@ -115,38 +115,10 @@
                     "name": "",
                     "id": "4035ec3b-0ada-4b0e-9756-871586294e8c",
                     "path": "<Keyboard>/leftShift",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "processors": "",
                     "groups": "",
                     "action": "Running",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "GamePad",
-            "id": "44998316-2bad-4c66-8455-7205b053cdd1",
-            "actions": [
-                {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "39944528-0527-426d-a076-2bcf5e145743",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "527b92c4-2868-4020-8033-9a98f3c9a90a",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
