@@ -1,5 +1,5 @@
 {
-    "name": "Controls",
+    "name": "PlayerInput",
     "maps": [
         {
             "name": "CharacterControls",
@@ -31,13 +31,22 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Dance",
+                    "type": "Button",
+                    "id": "b6d4b5a4-8cba-468b-8ed8-8d303c616e50",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
                     "name": "",
                     "id": "33997e80-e6ce-49c3-9392-ed7e85a18d1f",
-                    "path": "",
+                    "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -102,6 +111,17 @@
                 },
                 {
                     "name": "",
+                    "id": "4845b3a9-5c9c-458e-bcd1-11844c8352fe",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "7a9e1c95-1a95-4fa6-a226-31c331a61c60",
                     "path": "<Keyboard>/space",
                     "interactions": "",
@@ -113,12 +133,45 @@
                 },
                 {
                     "name": "",
+                    "id": "72d2f49d-aab4-46cd-a3b5-3f419008891b",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Running",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "4035ec3b-0ada-4b0e-9756-871586294e8c",
                     "path": "<Keyboard>/leftShift",
                     "interactions": "Press(behavior=2)",
                     "processors": "",
                     "groups": "",
                     "action": "Running",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "aae69067-db9c-4c0a-85b7-3a4ae2ff6614",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dance",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8cf1fcf2-eb2c-4e1b-a37a-24fac77ff675",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dance",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

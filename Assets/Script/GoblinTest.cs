@@ -9,9 +9,15 @@ public class GoblinTest : MonoBehaviour
     public float desaceleracion = 0.5f;
     private Animator m_Animator;
 
+    public bool grounded = true;
+
+    public Rigidbody rb;
+
     private void Start()
     {
         m_Animator = GetComponent<Animator>();
+
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -52,12 +58,29 @@ public class GoblinTest : MonoBehaviour
         {
             m_Animator.SetBool("TPsoe", !m_Animator.GetBool("TPsoe"));
         }
-               
-        if (Input.GetKeyDown(KeyCode.Space))
+
+        if (Input.GetKeyDown(KeyCode.Space) && grounded)
         {
             m_Animator.SetBool("Falling", !m_Animator.GetBool("Falling"));
+
+
+            rb.velocity = new Vector3(rb.velocity.x, 5, rb.velocity.z);
         }
 
+        m_Animator.SetBool("Grounded", grounded);
+
         m_Animator.SetFloat("Velocidad", velocidad);
+
+        Debug.Log(grounded);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        grounded = true;
+    }
+
+    private void OnCollisionExit(Collision collision) 
+    {
+        grounded = false;
     }
 }

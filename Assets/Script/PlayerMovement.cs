@@ -44,20 +44,23 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        handleMovement();
+        HandleMovement();
     }
 
 
-    void handleMovement()
+    void HandleMovement()
     {
         bool isWalking = animator.GetBool(isWalkingHash);
         bool isRunning = animator.GetBool(isRunningHash);
+        Debug.Log(currentMovement);
+            Debug.Log(isWalking);
 
         if (movementPressed && !isWalking)
         {
             animator.SetBool(isWalkingHash, true);
             animator.SetFloat(blendHash, currentMovement.x);
             rb.velocity = currentMovement;
+            Debug.Log("mover");
         }
         
         if (!movementPressed && isWalking)

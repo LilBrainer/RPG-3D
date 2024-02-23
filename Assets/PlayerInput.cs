@@ -17,10 +17,16 @@ using UnityEngine.InputSystem.Utilities;
 
 public partial class @PlayerInput: IInputActionCollection2, IDisposable
 {
-    public InputActionAsset asset { get; }
+    private readonly InputActionAsset asset1;
+
+    public InputActionAsset Getasset()
+    {
+        return asset1;
+    }
+
     public @PlayerInput()
     {
-        asset = InputActionAsset.FromJson(@"{
+        asset1 = InputActionAsset.FromJson(@"{
     ""name"": ""PlayerInput"",
     ""maps"": [
         {
@@ -53,13 +59,22 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dance"",
+                    ""type"": ""Button"",
+                    ""id"": ""b6d4b5a4-8cba-468b-8ed8-8d303c616e50"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
                     ""id"": ""33997e80-e6ce-49c3-9392-ed7e85a18d1f"",
-                    ""path"": """",
+                    ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -124,12 +139,34 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""4845b3a9-5c9c-458e-bcd1-11844c8352fe"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""7a9e1c95-1a95-4fa6-a226-31c331a61c60"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""72d2f49d-aab4-46cd-a3b5-3f419008891b"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Running"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -143,6 +180,28 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Running"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aae69067-db9c-4c0a-85b7-3a4ae2ff6614"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dance"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8cf1fcf2-eb2c-4e1b-a37a-24fac77ff675"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dance"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -150,39 +209,40 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     ""controlSchemes"": []
 }");
         // CharacterControls
-        m_CharacterControls = asset.FindActionMap("CharacterControls", throwIfNotFound: true);
+        m_CharacterControls = Getasset().FindActionMap("CharacterControls", throwIfNotFound: true);
         m_CharacterControls_Movement = m_CharacterControls.FindAction("Movement", throwIfNotFound: true);
         m_CharacterControls_Jump = m_CharacterControls.FindAction("Jump", throwIfNotFound: true);
         m_CharacterControls_Running = m_CharacterControls.FindAction("Running", throwIfNotFound: true);
+        m_CharacterControls_Dance = m_CharacterControls.FindAction("Dance", throwIfNotFound: true);
     }
 
     public void Dispose()
     {
-        UnityEngine.Object.Destroy(asset);
+        UnityEngine.Object.Destroy(Getasset());
     }
 
     public InputBinding? bindingMask
     {
-        get => asset.bindingMask;
-        set => asset.bindingMask = value;
+        get => Getasset().bindingMask;
+        set => Getasset().bindingMask = value;
     }
 
     public ReadOnlyArray<InputDevice>? devices
     {
-        get => asset.devices;
-        set => asset.devices = value;
+        get => Getasset().devices;
+        set => Getasset().devices = value;
     }
 
-    public ReadOnlyArray<InputControlScheme> controlSchemes => asset.controlSchemes;
+    public ReadOnlyArray<InputControlScheme> controlSchemes => Getasset().controlSchemes;
 
     public bool Contains(InputAction action)
     {
-        return asset.Contains(action);
+        return Getasset().Contains(action);
     }
 
     public IEnumerator<InputAction> GetEnumerator()
     {
-        return asset.GetEnumerator();
+        return Getasset().GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
@@ -192,24 +252,24 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
 
     public void Enable()
     {
-        asset.Enable();
+        Getasset().Enable();
     }
 
     public void Disable()
     {
-        asset.Disable();
+        Getasset().Disable();
     }
 
-    public IEnumerable<InputBinding> bindings => asset.bindings;
+    public IEnumerable<InputBinding> bindings => Getasset().bindings;
 
     public InputAction FindAction(string actionNameOrId, bool throwIfNotFound = false)
     {
-        return asset.FindAction(actionNameOrId, throwIfNotFound);
+        return Getasset().FindAction(actionNameOrId, throwIfNotFound);
     }
 
     public int FindBinding(InputBinding bindingMask, out InputAction action)
     {
-        return asset.FindBinding(bindingMask, out action);
+        return Getasset().FindBinding(bindingMask, out action);
     }
 
     // CharacterControls
@@ -218,6 +278,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_CharacterControls_Movement;
     private readonly InputAction m_CharacterControls_Jump;
     private readonly InputAction m_CharacterControls_Running;
+    private readonly InputAction m_CharacterControls_Dance;
     public struct CharacterControlsActions
     {
         private @PlayerInput m_Wrapper;
@@ -225,6 +286,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_CharacterControls_Movement;
         public InputAction @Jump => m_Wrapper.m_CharacterControls_Jump;
         public InputAction @Running => m_Wrapper.m_CharacterControls_Running;
+        public InputAction @Dance => m_Wrapper.m_CharacterControls_Dance;
         public InputActionMap Get() { return m_Wrapper.m_CharacterControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -243,6 +305,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Running.started += instance.OnRunning;
             @Running.performed += instance.OnRunning;
             @Running.canceled += instance.OnRunning;
+            @Dance.started += instance.OnDance;
+            @Dance.performed += instance.OnDance;
+            @Dance.canceled += instance.OnDance;
         }
 
         private void UnregisterCallbacks(ICharacterControlsActions instance)
@@ -256,6 +321,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Running.started -= instance.OnRunning;
             @Running.performed -= instance.OnRunning;
             @Running.canceled -= instance.OnRunning;
+            @Dance.started -= instance.OnDance;
+            @Dance.performed -= instance.OnDance;
+            @Dance.canceled -= instance.OnDance;
         }
 
         public void RemoveCallbacks(ICharacterControlsActions instance)
@@ -278,5 +346,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnRunning(InputAction.CallbackContext context);
+        void OnDance(InputAction.CallbackContext context);
     }
 }
