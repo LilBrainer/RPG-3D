@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Serialization;
 using UnityEngine;
 
 public class GoblinTest : MonoBehaviour
@@ -61,15 +62,13 @@ public class GoblinTest : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && grounded)
         {
-            m_Animator.SetBool("Falling", !m_Animator.GetBool("Falling"));
-
-
-            rb.velocity = new Vector3(rb.velocity.x, 5, rb.velocity.z);
+            m_Animator.SetTrigger("Jump");
         }
 
         m_Animator.SetBool("Grounded", grounded);
 
         m_Animator.SetFloat("Velocidad", velocidad);
+
 
         Debug.Log(grounded);
     }
@@ -77,6 +76,10 @@ public class GoblinTest : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         grounded = true;
+        if (m_Animator.GetBool("Falling") == true)
+        {
+            m_Animator.SetBool("Falling", false);
+        }
     }
 
     private void OnCollisionExit(Collision collision) 
