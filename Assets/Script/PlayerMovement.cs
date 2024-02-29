@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,9 @@ public class PlayerMovement : MonoBehaviour
 
     int isWalkingHash;
     int isRunningHash;
+    int groundedHash;
     int blendHash;
+    int speed = 2;
 
     PlayerInput input;
 
@@ -29,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
             movementPressed = currentMovement.x != 0 || currentMovement.y != 0;
         };
         input.CharacterControls.Running.performed += ctx => runPressed = ctx.ReadValueAsButton();
+        input.CharacterControls.Jump.performed += ctx => HandleJump();
     }
 
     private void Start()
@@ -39,29 +43,38 @@ public class PlayerMovement : MonoBehaviour
 
         isWalkingHash = Animator.StringToHash("Walking");
         isRunningHash = Animator.StringToHash("Running");
+        groundedHash = Animator.StringToHash("Grounded");
         blendHash = Animator.StringToHash("Velocidad");
     }
 
     private void Update()
     {
         HandleMovement();
+        Debug.Log("correr "+runPressed);
     }
 
+    private void HandleJump()
+    {
+        if (animator.GetBool(groundedHash))
+        {
+            animator.SetTrigger("Jump");
+        }
+    }
 
     void HandleMovement()
     {
         bool isWalking = animator.GetBool(isWalkingHash);
         bool isRunning = animator.GetBool(isRunningHash);
-        Debug.Log(currentMovement);
-            Debug.Log(isWalking);
+        //debug.log(currentmovement);
+        Debug.Log(isWalking);
 
         if (movementPressed && !isWalking)
         {
             animator.SetBool(isWalkingHash, true);
-            animator.SetFloat(blendHash, currentMovement.x);
-            rb.velocity = currentMovement;
+            rb.velocity = new Vector3(currentMovement.x, 0, currentMovement.y) * speed;
             Debug.Log("mover");
         }
+        
         
         if (!movementPressed && isWalking)
         {
@@ -73,6 +86,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool(isRunningHash, true);
         }
 
+        Debug.Log("TEST \n movementPressed " + movementPressed + "\nrunPressed " + runPressed + "\nisRunning " + isRunning);
         if ((!movementPressed && !runPressed) && isRunning)
         {
             animator.SetBool(isRunningHash, false);
@@ -90,5 +104,19 @@ public class PlayerMovement : MonoBehaviour
     private void OnDisable()
     {
         input.CharacterControls.Disable();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        animator.SetBool(groundedHash, true);
+        if (animator.GetBool("Falling") == true)
+        {
+            animator.SetBool("Falling", false);
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        animator.SetBool(groundedHash, false);
     }
 }

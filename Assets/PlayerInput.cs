@@ -17,16 +17,10 @@ using UnityEngine.InputSystem.Utilities;
 
 public partial class @PlayerInput: IInputActionCollection2, IDisposable
 {
-    private readonly InputActionAsset asset1;
-
-    public InputActionAsset Getasset()
-    {
-        return asset1;
-    }
-
+    public InputActionAsset asset { get; }
     public @PlayerInput()
     {
-        asset1 = InputActionAsset.FromJson(@"{
+        asset = InputActionAsset.FromJson(@"{
     ""name"": ""PlayerInput"",
     ""maps"": [
         {
@@ -152,7 +146,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""7a9e1c95-1a95-4fa6-a226-31c331a61c60"",
                     ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(behavior=2)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Jump"",
@@ -209,7 +203,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     ""controlSchemes"": []
 }");
         // CharacterControls
-        m_CharacterControls = Getasset().FindActionMap("CharacterControls", throwIfNotFound: true);
+        m_CharacterControls = asset.FindActionMap("CharacterControls", throwIfNotFound: true);
         m_CharacterControls_Movement = m_CharacterControls.FindAction("Movement", throwIfNotFound: true);
         m_CharacterControls_Jump = m_CharacterControls.FindAction("Jump", throwIfNotFound: true);
         m_CharacterControls_Running = m_CharacterControls.FindAction("Running", throwIfNotFound: true);
@@ -218,31 +212,31 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
 
     public void Dispose()
     {
-        UnityEngine.Object.Destroy(Getasset());
+        UnityEngine.Object.Destroy(asset);
     }
 
     public InputBinding? bindingMask
     {
-        get => Getasset().bindingMask;
-        set => Getasset().bindingMask = value;
+        get => asset.bindingMask;
+        set => asset.bindingMask = value;
     }
 
     public ReadOnlyArray<InputDevice>? devices
     {
-        get => Getasset().devices;
-        set => Getasset().devices = value;
+        get => asset.devices;
+        set => asset.devices = value;
     }
 
-    public ReadOnlyArray<InputControlScheme> controlSchemes => Getasset().controlSchemes;
+    public ReadOnlyArray<InputControlScheme> controlSchemes => asset.controlSchemes;
 
     public bool Contains(InputAction action)
     {
-        return Getasset().Contains(action);
+        return asset.Contains(action);
     }
 
     public IEnumerator<InputAction> GetEnumerator()
     {
-        return Getasset().GetEnumerator();
+        return asset.GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
@@ -252,24 +246,24 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
 
     public void Enable()
     {
-        Getasset().Enable();
+        asset.Enable();
     }
 
     public void Disable()
     {
-        Getasset().Disable();
+        asset.Disable();
     }
 
-    public IEnumerable<InputBinding> bindings => Getasset().bindings;
+    public IEnumerable<InputBinding> bindings => asset.bindings;
 
     public InputAction FindAction(string actionNameOrId, bool throwIfNotFound = false)
     {
-        return Getasset().FindAction(actionNameOrId, throwIfNotFound);
+        return asset.FindAction(actionNameOrId, throwIfNotFound);
     }
 
     public int FindBinding(InputBinding bindingMask, out InputAction action)
     {
-        return Getasset().FindBinding(bindingMask, out action);
+        return asset.FindBinding(bindingMask, out action);
     }
 
     // CharacterControls
