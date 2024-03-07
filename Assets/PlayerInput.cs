@@ -146,7 +146,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""7a9e1c95-1a95-4fa6-a226-31c331a61c60"",
                     ""path"": ""<Keyboard>/space"",
-                    ""interactions"": ""Press(behavior=2)"",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Jump"",

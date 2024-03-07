@@ -50,13 +50,14 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         HandleMovement();
-        Debug.Log("correr "+runPressed);
+        //Debug.Log("correr "+runPressed);
     }
 
     private void HandleJump()
     {
         if (animator.GetBool(groundedHash))
         {
+            Debug.Log("jump");
             animator.SetTrigger("Jump");
         }
     }
@@ -66,7 +67,8 @@ public class PlayerMovement : MonoBehaviour
         bool isWalking = animator.GetBool(isWalkingHash);
         bool isRunning = animator.GetBool(isRunningHash);
         //debug.log(currentmovement);
-        Debug.Log(isWalking);
+        Debug.Log(currentMovement.x + " currentMovemente X");
+        Debug.Log(currentMovement.y + " currentMovemente Y");
 
         if (movementPressed && !isWalking)
         {
@@ -86,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool(isRunningHash, true);
         }
 
-        Debug.Log("TEST \n movementPressed " + movementPressed + "\nrunPressed " + runPressed + "\nisRunning " + isRunning);
+        //Debug.Log("TEST \n movementPressed " + movementPressed + "\nrunPressed " + runPressed + "\nisRunning " + isRunning);
         if ((!movementPressed && !runPressed) && isRunning)
         {
             animator.SetBool(isRunningHash, false);

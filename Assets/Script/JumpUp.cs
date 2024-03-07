@@ -10,6 +10,7 @@ public class JumpUp : StateMachineBehaviour
         Rigidbody rb = animator.GetComponent<Rigidbody>();
         rb.velocity = new Vector3(rb.velocity.x, 5, rb.velocity.z);
         animator.SetBool("Falling", true);
+        //animator.ResetTrigger("Jump");
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
