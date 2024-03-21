@@ -20,24 +20,40 @@ public class PlayerMovement : MonoBehaviour
     bool movementPressed;
     bool runPressed;
 
-    Rigidbody rb;
+    Rigidbody playerRb;
+
+    // TESTING
+
+    InputManager inputManager;
+
+    Transform cameraObject;
+    Vector3 moveDirection;
+
+    public float movementSpeed = 7;
+    public float rotationSpeed = 8;
+
+    //private void Awake()
+    //{
+    //    input = new PlayerInput();
+
+    //    input.CharacterControls.Movement.performed += ctx =>
+    //    {
+    //        currentMovement = ctx.ReadValue<Vector2>();
+    //        movementPressed = currentMovement.x != 0 || currentMovement.y != 0;
+    //    };
+    //    input.CharacterControls.Running.performed += ctx => runPressed = ctx.ReadValueAsButton();
+    //    input.CharacterControls.Jump.performed += ctx => HandleJump();
+    //    }
 
     private void Awake()
     {
-        input = new PlayerInput();
-
-        input.CharacterControls.Movement.performed += ctx =>
-        {
-            currentMovement = ctx.ReadValue<Vector2>();
-            movementPressed = currentMovement.x != 0 || currentMovement.y != 0;
-        };
-        input.CharacterControls.Running.performed += ctx => runPressed = ctx.ReadValueAsButton();
-        input.CharacterControls.Jump.performed += ctx => HandleJump();
+        inputManager = GetComponent<InputManager>();
+        playerRb = GetComponent<Rigidbody>();
+        cameraObject = Camera.main.transform;
     }
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
 
         animator = GetComponent<Animator>();
 
@@ -50,7 +66,6 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         HandleMovement();
-        //Debug.Log("correr "+runPressed);
     }
 
     private void HandleJump()
@@ -62,40 +77,78 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void HandleMovement()
+    //void HandleMovement()
+    //{
+    //    bool isWalking = animator.GetBool(isWalkingHash);
+    //    bool isRunning = animator.GetBool(isRunningHash);
+    //    //debug.log(currentmovement);
+    //    Debug.Log(currentMovement.x + " currentMovemente X");
+    //    Debug.Log(currentMovement.y + " currentMovemente Y");
+
+    //    if (movementPressed && !isWalking)
+    //    {
+    //        animator.SetBool(isWalkingHash, true);
+    //        rb.velocity = new Vector3(currentMovement.x, 0, currentMovement.y) * speed;
+    //        Debug.Log("mover");
+    //    }
+        
+        
+    //    if (!movementPressed && isWalking)
+    //    {
+    //        animator.SetBool(isWalkingHash, false);
+    //    }
+
+    //    if ((movementPressed && runPressed) && !isRunning)
+    //    {
+    //        animator.SetBool(isRunningHash, true);
+    //    }
+
+    //    //Debug.Log("TEST \n movementPressed " + movementPressed + "\nrunPressed " + runPressed + "\nisRunning " + isRunning);
+    //    if ((!movementPressed && !runPressed) && isRunning)
+    //    {
+    //        animator.SetBool(isRunningHash, false);
+    //    }
+
+
+        
+    //}
+
+    public void HandleAllMovement()
     {
-        bool isWalking = animator.GetBool(isWalkingHash);
-        bool isRunning = animator.GetBool(isRunningHash);
-        //debug.log(currentmovement);
-        Debug.Log(currentMovement.x + " currentMovemente X");
-        Debug.Log(currentMovement.y + " currentMovemente Y");
+        HandleMovement();
+        HandleRotation();
+    }
 
-        if (movementPressed && !isWalking)
+    public void HandleMovement()
+    {
+        moveDirection = cameraObject.forward * inputManager.vertiInput;
+        moveDirection = moveDirection + cameraObject.right * inputManager.horizInput;
+        moveDirection.Normalize();
+        moveDirection.y = 0;
+        moveDirection = moveDirection * movementSpeed;
+
+        Vector3 movementVelocity = moveDirection;
+        playerRb.velocity = movementVelocity;
+    }
+
+    public void HandleRotation()
+    {
+        Vector3 targetDirection = Vector3.zero;
+
+        targetDirection = cameraObject.forward * inputManager.vertiInput;
+        targetDirection = targetDirection + cameraObject.right * inputManager.horizInput;
+        targetDirection.Normalize();
+        targetDirection.y = 0;
+
+        if (targetDirection == Vector3.zero)
         {
-            animator.SetBool(isWalkingHash, true);
-            rb.velocity = new Vector3(currentMovement.x, 0, currentMovement.y) * speed;
-            Debug.Log("mover");
-        }
-        
-        
-        if (!movementPressed && isWalking)
-        {
-            animator.SetBool(isWalkingHash, false);
+            targetDirection = transform.forward;
         }
 
-        if ((movementPressed && runPressed) && !isRunning)
-        {
-            animator.SetBool(isRunningHash, true);
-        }
+        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+        Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-        //Debug.Log("TEST \n movementPressed " + movementPressed + "\nrunPressed " + runPressed + "\nisRunning " + isRunning);
-        if ((!movementPressed && !runPressed) && isRunning)
-        {
-            animator.SetBool(isRunningHash, false);
-        }
-
-
-        
+        transform.rotation = playerRotation;
     }
 
     private void OnEnable()
